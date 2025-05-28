@@ -174,9 +174,7 @@ The expression for the four continuous-time state equations is
 \end{split}
 \end{equation}
 
-However, this can be expressed as a stochastic system of discrete events, where $F,H,S,M\in \mathbbm{Z}_{\geq0}$.
-
-The system described by these equations involve 20 possible events affecting the state vector
+However, this can be expressed as a stochastic system of discrete events, where $F,H,S,M\in \mathbbm{Z}_{\geq0}$. The system described by these equations involve 20 possible events affecting the state vector
 \[X(t)=\begin{bmatrix}F(t)\\H(t)\\S(t)\\M(t)\end{bmatrix}\]
 
 \begin{table}[h!]
@@ -220,6 +218,10 @@ Using these event definitions, we can reformulate the state equations as a stoch
 \end{split}
 \end{equation}
 
+This is modeled using the Gillespie stochastic simulation algorithm. However, in order to model spine fluctuations through time as endogenous estradiol concentrations fluctuate over time, the simulation must include a function for the effect of this non-homogenous ``environmental'' function, following Equation \eqref{eq:estradiol_fourier}.
+
+
+
 %\begin{equation}
 %\begin{split}
 %\label{eq:master}
@@ -250,14 +252,16 @@ Using these event definitions, we can reformulate the state equations as a stoch
 \item Wolcott, N.S., Sit, K.K., Raimondi, G. \textit{et al.} Automated classification of estrous stage in rodents using deep learning. \textit{Sci Rep} 12, 17685 (2022). \url{https://doi.org/10.1038/s41598-022-22392-w}
 \item Wolcott, N.S., Redman, W.T., Karpinska M. \textit{et al.} The estrous cycle modulates hippocampal spine dynamics, dendritic processing, and spatial coding. \textit{Neuron} 113, 1-13 (2025). \url{https://doi.org/10.1016/j.neuron.2025.04.014}
 \item Woolley, C.S., Gould, E., Grankfurt, M., \& McEwen, B.S. Naturally occurring fluctuation in dendritic spine density on adult hippocampal pyramidal neurons. \textit{J. Neurosci.} 10(12) 4035--4039 (1990). \url{https://doi.org/10.1523/JNEUROSCI.10-12-04035.1990}
+\item Donner, N.C., Lowry, C.A. Sex differences in anxiety and emotional behavior. \textit{Pflugers Arch - Eur J Physiol} 465, 601–626 (2013). \url{https://doi.org/10.1007/s00424-013-1271-7}
 \end{itemize}
-% https://www.jneurosci.org/content/jneuro/10/12/4035.full.pdf
 % https://www.sciencedirect.com/science/article/pii/S001664801100428X?via%3Dihub
 % https://pmc.ncbi.nlm.nih.gov/articles/PMC3471296/#ref-list1
 % https://pmc.ncbi.nlm.nih.gov/articles/PMC2921935/#:~:text=%5BE2%5D%20in%20male%20mice%20is,OVX%20sham%2C%20and%20males).&text=%5BE2%5D%20measurements%20were%20performed%20in,sham%20(P%3C0.05).
 % https://www.sciencedirect.com/science/article/pii/S001664801100428X?via%3Dihub
 % https://pmc.ncbi.nlm.nih.gov/articles/PMC3471296/#ref-list1
-% https://link.springer.com/article/10.1007/s12080-018-0386-z#citeas
+
+
+
 
 
 
