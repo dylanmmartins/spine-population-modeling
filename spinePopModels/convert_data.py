@@ -1,8 +1,7 @@
-import numpy as np
 import os
+import numpy as np
 from scipy.io import loadmat
 import pandas as pd
-
 
 def convert_data(datadir, savedir):
 
@@ -34,7 +33,7 @@ def convert_data(datadir, savedir):
         df = pd.DataFrame(spine_data)
         df.columns = ['spine_{:02}'.format(n) for n in range(len(df.columns.values))]
         # drop last day for the only recording that a day was removed from spine data but not from cycle data.
-        if (len(stages) > len(df.index.values)) and (mouse_id=='WTR042') and (dendrite_id==4):
+        if (len(stages) > len(df.index.values)) and (mouse_id=='WTR042')  and (dendrite_id==4):
             stages = stages[:-1]
 
         df['hrs'] = np.arange(0, 12*len(df.index.values), 12)
@@ -49,10 +48,8 @@ def convert_data(datadir, savedir):
             key='key'
         )
 
-
 if __name__ == '__main__':
 
     datadir = '/Users/dmartins/Dropbox/spine_modeling/matlab_data'
     savedir = '/Users/dmartins/Dropbox/spine_modeling/clean_data'
-
     convert_data(datadir, savedir)
