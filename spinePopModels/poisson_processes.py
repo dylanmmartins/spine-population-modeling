@@ -6,16 +6,18 @@ from scipy.integrate import quad
 
 # Homogeneous Poisson Process (hpp) inter-event time sampler
 def hpp(intentemp):
+
     total_intensity = sum(intentemp)
     # Avoid division by zero (should be handled by caller)
     return - (1 / total_intensity) * math.log(1 - random.random())
 
 # Nonhomogeneous Poisson Process (nhpp) inter-event time sampler using inverse transform
-def nhpp(tottime, pops, inten, timeleft):
+def nhpp(tottime, pops, inten, timeleft, transition_dict):
+
     Y = random.random()
     def f(X):
         # Integrate sum of intensities from 0 to X
-        integral, _ = quad(lambda x: sum(inten(tottime + x, pops)), 0, X, limit=200)
+        integral, _ = quad(lambda x: sum(inten(tottime + x, pops, transition_dict)), 0, X, limit=200)
         return 1 - math.exp(-integral) - Y
     try:
         sol = root_scalar(f, bracket=[0, timeleft], method='bisect', xtol=1e-5)

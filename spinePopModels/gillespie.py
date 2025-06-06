@@ -1,8 +1,8 @@
 import numpy as np
 from inspect import signature
 import scipy.interpolate
+import os
 
-from .helpers import make_transition_dict
 
 def make_transition_dict():
 
@@ -15,10 +15,10 @@ def make_transition_dict():
     ])
 
     # Load transition probability matrices
-    DtoP = np.load('transition_mats/DtoP_transition_matrix.npy')
-    PtoE = np.load('transition_mats/PtoE_transition_matrix.npy')
-    EtoM = np.load('transition_mats/EtoM_transition_matrix.npy')
-    MtoD = np.load('transition_mats/MtoD_transition_matrix.npy')
+    DtoP = np.load(os.path.join(os.path.split(os.path.realpath(__file__))[0], 'transition_mats/DtoP_transition_matrix.npy'))
+    PtoE = np.load(os.path.join(os.path.split(os.path.realpath(__file__))[0], 'transition_mats/PtoE_transition_matrix.npy'))
+    EtoM = np.load(os.path.join(os.path.split(os.path.realpath(__file__))[0], 'transition_mats/EtoM_transition_matrix.npy'))
+    MtoD = np.load(os.path.join(os.path.split(os.path.realpath(__file__))[0], 'transition_mats/MtoD_transition_matrix.npy'))
 
     mats = [DtoP, PtoE, EtoM, MtoD]
 
@@ -44,6 +44,8 @@ def make_transition_dict():
             transition_dict[symbol_matrix[i,j]] = transvals_at_bins
 
     return transition_dict
+
+
 
 def get_state_change_mat():
 
@@ -71,6 +73,8 @@ def get_state_change_mat():
     ])
     return state_change_matrix
 
+
+
 # Gillespie+ simulation using nonhomogeneous Poisson process sampling
 def gillespie_plus(init, times, inten, nhpp_func, fixed_cycle_tind=None):
 
@@ -96,8 +100,8 @@ def gillespie_plus(init, times, inten, nhpp_func, fixed_cycle_tind=None):
         results[i, :] = results[i - 1, :].copy()
         while tottime <= times[i]:
 
-            if nargs == 4:
-                tau = nhpp_func(tottime, pops, inten, times[-1]-tottime)
+            if nargs == 5:
+                tau = nhpp_func(tottime, pops, inten, times[-1]-tottime, transition_dict)
             
             elif nargs == 1:
                 
@@ -106,12 +110,12 @@ def gillespie_plus(init, times, inten, nhpp_func, fixed_cycle_tind=None):
                 else:
                     intentemp = inten(tottime, pops, transition_dict)
                 
-                tau = nhpp_func(intentemp)
+                tau = nhpp_func(intentemp, transition_dict=transition_dict)
                 
             tottime += tau
 
             # Recalculate intensities for the new time.
-            intentemp = inten(tottime, pops)
+            intentemp = inten(tottime, pops, transition_dict)
 
             # Handle negative intensities (before normalizing by the sum) by shifting the up so the lowest
             # intensity is zero. Once scaled by the sum, they'll still sum to 1.
