@@ -1,0 +1,54 @@
+\begin{thebibliography}{1}
+
+\bibitem{spines}
+E.A. Nimchinsky, Sabatini B.L., and K.~Svoboda.
+\newblock Structure and function of dendritic spines.
+\newblock {\em Ann. Rev. Phys.}, 64:313--353, 2002.
+
+\bibitem{hippocampus}
+C.~Bird and N.~Burgess.
+\newblock The hippocampus and memory: insights from spatial processing.
+\newblock {\em Nat. Rev. Neurosci.}, 9:182–194, 2008.
+
+\bibitem{woolley}
+C.S. Woolley, E.~Gould, M.~Grankfurt, and B.S. McEwen.
+\newblock Naturally occurring fluctuation in dendritic spine density on adult
+  hippocampal pyramidal neurons.
+\newblock {\em J. Neurosci.}, 10:4035--4039, 1990.
+
+\bibitem{nora}
+N.S. Wolcott, W.T. Redman, Karpinska M., E.G. Jacobs, and M.J. Goard.
+\newblock The estrous cycle modulates hippocampal spine dynamics, dendritic
+  processing, and spatial coding.
+\newblock {\em Neuron}, 12:31--48, 2019.
+
+\bibitem{silent}
+D.~Vardalaki, K.~Chung, and M.T. Harnett.
+\newblock Filopodia are a structural substrate for silent synapses in adult
+  neocortex.
+\newblock {\em Nat.}, 612:323–327, 2022.
+
+\bibitem{estrousnet}
+N.S. Wolcott, K.K. Sit, G.~Raimondi, T.~Hodges, R.M. Shansky, L.A.M. Galea,
+  L.E. Ostroff, and M.J. Goard.
+\newblock Automated classification of estrous stage in rodents using deep
+  learning.
+\newblock {\em Sci. Rep.}, 12:17685, 2022.
+
+\bibitem{e2_levels}
+N.C. Donner and C.A. Lowry.
+\newblock Sex differences in anxiety and emotional behavior.
+\newblock {\em Pflugers Arch - Eur. J. Physiol.}, 465:601–626, 2013.
+
+\bibitem{gillespie}
+D.T. Gillespie.
+\newblock Exact stochastic simulation of coupled chemical reactions.
+\newblock {\em J. Phys. Chem.}, 81:2340–--2361, 1977.
+
+\bibitem{legault}
+G.~Legault and B.A. Melbourne.
+\newblock Accounting for environmental change in continuous-time stochastic
+  population models.
+\newblock {\em Theor. Ecol.}, 12:31--48, 2019.
+
+\end{thebibliography}

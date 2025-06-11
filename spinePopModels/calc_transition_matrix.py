@@ -7,6 +7,7 @@ mpl.rcParams['axes.spines.top'] = False
 mpl.rcParams['axes.spines.right'] = False
 mpl.rcParams['pdf.fonttype'] = 42
 mpl.rcParams['ps.fonttype'] = 42
+mpl.rcParams['svg.fonttype'] = 'none'
 
 def calculate_transition_matrix(file_paths, f, t):
     # file_paths is the list of hdf files

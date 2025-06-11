@@ -175,3 +175,8 @@ cython_debug/
 
 
 .DS_store
+*.h5
+*.png
+*.svg
+*.npy
+*.yaml
