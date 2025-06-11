@@ -76,58 +76,40 @@ def get_state_change_mat():
 
 
 # Gillespie+ simulation using nonhomogeneous Poisson process sampling
-def gillespie_plus(init, times, inten, nhpp_func, fixed_cycle_tind=None):
+def gillespie_plus(init, times, calc_intensity, nhpp_func):
 
-    transition_dict = make_transition_dict()
     pproc = get_state_change_mat()
 
-    if len(times) == 0:
-        raise ValueError("No time points provided in 'times'")
-    if times[0] != 0:
-        raise ValueError("First time point is not 0")
-    
     tottime = times[0]
     tinc = len(times)
     pops = np.array(init, dtype=float)
     results = np.zeros((tinc, len(pops)))
     results[0, :] = pops.copy()
 
-    # Get number of arguments for the provided Poisson process function
-    nargs = len(str(signature(nhpp_func)).split(','))
-
     i = 1
     while i < tinc:
-        results[i, :] = results[i - 1, :].copy()
+        
+        results[i, :] = results[i-1, :].copy()
+        
         while tottime <= times[i]:
 
-            if nargs == 5:
-                tau = nhpp_func(tottime, pops, inten, times[-1]-tottime, transition_dict)
-            
-            elif nargs == 1:
-                
-                if fixed_cycle_tind is not None:
-                    intentemp = inten(fixed_cycle_tind, pops, transition_dict)
-                else:
-                    intentemp = inten(tottime, pops, transition_dict)
-                
-                tau = nhpp_func(intentemp, transition_dict=transition_dict)
-                
+            tau = nhpp_func(tottime, pops, params, calc_intensity, times[-1]-tottime)
             tottime += tau
 
             # Recalculate intensities for the new time.
-            intentemp = inten(tottime, pops, transition_dict)
+            intentemp = calc_intensity(tottime, pops, params)
 
             # Handle negative intensities (before normalizing by the sum) by shifting the up so the lowest
             # intensity is zero. Once scaled by the sum, they'll still sum to 1.
             if np.nanmin(intentemp) < 0:
                 intentemp += - np.nanmin(intentemp)
 
-            probabilities = np.array(intentemp) / np.nansum(intentemp)
+            probabilities = np.array(intentemp) / np.sum(intentemp)
 
             _choice = np.arange(pproc.shape[0])
             _probs = probabilities.flatten()
-            
             event_index = np.random.choice(_choice, p=_probs)
+            
             if tottime > times[i]:
                 results[i, :] = pops.copy()
                 pops = pops + pproc[event_index, :]

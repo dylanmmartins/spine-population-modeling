@@ -71,3 +71,47 @@ def inten(t, pops, transition_dict):
     ])
 
     return ppintens
+
+
+
+def calc_intensity(t, pops, params):
+    # Intensity function and demographic functions combined into single func
+    # Should return the values for birth*population, etc. as numbers not as rates
+    # c == Current hormone concentrations (not including bias term
+
+    alltimes = np.arange(0,4.25,0.25) # units of days
+    ind, _ = find_closest_timestamp(alltimes, t)
+    c = X_conc[ind,:]
+
+    # augment concentrations by inserting a 1.0 to use full bias term
+    c_aug = np.insert(c, 0, 1.0)
+
+    # Current populations
+    F, H, S, M = pops
+
+    # Ignore lambda values because these represent staibility not a real transition
+    # The population intensites, lambda(t), of the point process are the expected rate of occurrence
+    # of events at a particular time t
+    ppintens = np.array([
+        params['w_betaF'] @ c_aug,              # betaF
+        params['w_betaH'] @ c_aug,              # betaH
+        params['w_betaS'] @ c_aug,              # betaS
+        params['w_betaM'] @ c_aug,              # betaM
+        (params['w_deltaF'] @ c_aug) * F,       # deltaF
+        (params['w_deltaH'] @ c_aug) * H,       # deltaF
+        (params['w_deltaS'] @ c_aug) * S,       # deltaF
+        (params['w_deltaM'] @ c_aug) * M,       # deltaF
+        (params['w_gammaH2F'] @ c_aug) * H,     # gammaHF
+        (params['w_gammaS2F'] @ c_aug) * S,     # gammaSF
+        (params['w_gammaM2F'] @ c_aug) * M,     # gammaMF
+        (params['w_gammaF2H'] @ c_aug) * F,     # gammaFH
+        (params['w_gammaF2S'] @ c_aug) * F,     # gammaFS
+        (params['w_gammaF2M'] @ c_aug) * F,     # gammaFM
+        (params['w_gammaS2H'] @ c_aug) * S,     # gammaSH
+        (params['w_gammaM2H'] @ c_aug) * M,     # gammaMH
+        (params['w_gammaH2S'] @ c_aug) * H,     # gammaHS
+        (params['w_gammaM2S'] @ c_aug) * M,     # gammaMS
+        (params['w_gammaH2M'] @ c_aug) * H,     # gammaHM
+        (params['w_gammaS2M'] @ c_aug) * S,     # gammaSM
+    ])
+    return ppintens
